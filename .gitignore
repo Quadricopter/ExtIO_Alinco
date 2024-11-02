@@ -1,0 +1,9 @@
+.vs
+*.vcxproj.user
+ExtIO_Demo
+ExtIO_Dummy
+Backup
+Release
+TestApp
+x64
+install.bat
