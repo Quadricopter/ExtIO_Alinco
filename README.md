@@ -1,6 +1,6 @@
 # Notice
 ExtIO dll for HDSDR.
-Previously hosted at http://scirocco.pagesperso-orange.fr/hdsdr/ (**deprecated**)
+Previously hosted at [deprecated](http://scirocco.pagesperso-orange.fr/hdsdr/)
 
 # Usage
 Copy `ExtIO_Alinco_*.dll` in your `HDSDR` installation directory (default: `C:\Program (x86)\HDSDR`).

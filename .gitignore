@@ -1,5 +1,6 @@
 .vs
 *.vcxproj.user
+configfiles
 ExtIO_Demo
 ExtIO_Dummy
 Backup
@@ -7,3 +8,8 @@ Release
 TestApp
 x64
 install.bat
+*.zip
+*.swp
+make_release.sh
+builds
+common/sdk
