@@ -12,7 +12,6 @@
 typedef struct s_alinco {
 
     t_serial    *pSerial;
-    int         bInit;
     int         bWait;
 }   t_alinco;
 
@@ -20,8 +19,13 @@ typedef struct s_alinco {
  *
  */
 
+#define SERIAL_BUFFER_SIZE             128
+
+#define DJX11_BAUD                   57600
 #define DJX11_MIN_FREQUENCY_HZ       50000
 #define DJX11_MAX_FREQUENCY_HZ  1300000000  
+
+#define DXR8_BAUD                     9600
 #define DXR8_MIN_FREQUENCY_HZ       150000
 #define DXR8_MAX_FREQUENCY_HZ     35000000
 

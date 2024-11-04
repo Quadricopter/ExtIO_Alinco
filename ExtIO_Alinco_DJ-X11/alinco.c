@@ -4,17 +4,12 @@
 #include "alinco.h"
 #include "logging.h"
 
-#define SERIAL_BUFFER_SIZE  128
-#define DJX11_BAUD          57600
-
 /*
  *
  */
 
 EAlinco Alinco_init(t_alinco **p)
 {
-    t_serial    *pSerial = NULL;
-
     *p = malloc(sizeof(t_alinco));
     memset(*p, 0, sizeof(t_alinco));
 
@@ -31,6 +26,8 @@ EAlinco Alinco_open(t_alinco *p, const char *szDevice)
     if (serialRet != SERIAL_OK) {
 
         log_error("serial_open(%s) failed", szDevice);
+        free(pSerial);
+
         return ALINCO_FAILED;
     }
 
@@ -47,12 +44,16 @@ EAlinco Alinco_close(t_alinco *p)
         free(p->pSerial);
     }
     p->pSerial = NULL;
+
+    return ALINCO_OK;
 }
 
 EAlinco Alinco_release(t_alinco *p)
 {
-    if (p->pSerial)
+    if (p->pSerial) {
+
         Alinco_close(p);
+    }
     free(p);
 
     return ALINCO_OK;

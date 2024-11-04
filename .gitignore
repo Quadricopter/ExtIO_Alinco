@@ -11,5 +11,4 @@ install.bat
 *.zip
 *.swp
 make_release.sh
-builds
-common/sdk
+sdk

@@ -100,6 +100,8 @@ bool EXTIO_ENTRY OpenHW(void)
         return false;
     }
 
+    gl_pAlinco->bWait = GetPrivateProfileInt("CONFIG", "wait", 0, szFileName);
+
     Alinco_open(gl_pAlinco, szDevice);
 
     return true;
@@ -120,6 +122,9 @@ extern "C"
 int EXTIO_ENTRY StartHW(long extLOfreq)
 {
     log_debug("StartHW(%ld)", extLOfreq);
+
+    Alinco_setModeSDR(gl_pAlinco, true);
+    Alinco_setVFO1(gl_pAlinco, extLOfreq);
 
     // No complex returned by callback
     return 0;

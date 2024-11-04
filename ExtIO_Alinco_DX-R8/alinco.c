@@ -4,103 +4,34 @@
 #include "alinco.h"
 #include "logging.h"
 
-#define SERIAL_BUFFER_SIZE  128
-#define DXR8_BAUD           9600
-
 /*
  *
  */
 
 EAlinco Alinco_init(t_alinco **p)
 {
-    char        szConfigFile[1024];
-
-    *p = calloc(1, sizeof(t_alinco));
-
-    /*
-     * Find ini file path
-     */
-
-    GetModuleFileName(NULL, szConfigFile, 1024);
-    int n = strlen(szConfigFile) - 1;
-    while (n) {
-
-        if (szConfigFile[n] == '\\') {
-
-            strcpy(&szConfigFile[n + 1], CONFIG_FILE_NAME);
-            break;
-        }
-        if (n == 0) {
-
-            log_error("Can't open config file");
-
-            return ALINCO_FAILED;
-        }
-        n--;
-    }
-
-    /*
-     * Load port config
-     */
-
-
-    (*p)->bInit = GetPrivateProfileInt("CONFIG", "init", 0, szConfigFile);
-    (*p)->bWait = GetPrivateProfileInt("CONFIG", "wait", 0, szConfigFile);
+    *p = malloc(sizeof(t_alinco));
+    memset(*p, 0, sizeof(t_alinco));
 
     return ALINCO_OK;
 }
 
 EAlinco Alinco_open(t_alinco *p, const char *szDevice)
 {
+    t_serial    *pSerial = NULL;
     ESerial     serialRet;
-    t_serial    *pSerial;
-    char        buff[SERIAL_BUFFER_SIZE];
 
-
-    //    pSerial = new_serial();
     serial_init(&pSerial);
     serialRet = serial_open(pSerial, szDevice, DXR8_BAUD);
     if (serialRet != SERIAL_OK) {
 
-        printf("serial_open failed\n");
-        log_debug("Can't open serial port [%s]", szDevice);
+        log_error("Can't open serial port [%s]", szDevice);
         free(pSerial);
 
         return ALINCO_FAILED;
     }
-    printf("pSerial: %p\n", pSerial);
 
     p->pSerial = pSerial;
-
-    if (p->bInit == 1) {
-
-        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~RW_RFM05\r\n");
-        log_debug(buff);
-        serial_write(pSerial, buff, strlen(buff));
-        if (p->bWait == 1) {
-        }
-        else {
-            Sleep(1);
-        }
-
-        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~SW_IQM01\r\n");
-        log_debug(buff);
-        serial_write(pSerial, buff, strlen(buff));
-        if (p->bWait == 1) {
-        }
-        else {
-            Sleep(1);
-        }
-
-        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~SW_IQF 0000\r\n");
-        log_debug(buff);
-        serial_write(pSerial, buff, strlen(buff));
-        if (p->bWait == 1) {
-        }
-        else {
-            Sleep(1);
-        }
-    }
 
     return ALINCO_OK;
 }
@@ -158,7 +89,44 @@ EAlinco Alinco_getVFO1(t_alinco *p, uint32_t *freq)
     return ALINCO_OK;
 }
 
-EAlinco Alinco_setModeSDR(t_alinco *p, int bSdrMode)
+EAlinco Alinco_setModeSDR(t_alinco *p, bool bSdrMode)
 {
+    char    buff[SERIAL_BUFFER_SIZE];
+
+    if (bSdrMode == true) {
+
+        // FIXME: Little doubt here, switch to FM ?
+        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~RW_RFM05\r\n");
+        log_debug(buff);
+        serial_write(p->pSerial, buff, strlen(buff));
+        if (p->bWait == 1) {
+        }
+        else {
+            Sleep(1);
+        }
+
+        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~SW_IQM01\r\n");
+        log_debug(buff);
+        serial_write(p->pSerial, buff, strlen(buff));
+        if (p->bWait == 1) {
+        }
+        else {
+            Sleep(1);
+        }
+
+        snprintf(buff, SERIAL_BUFFER_SIZE, "AL~SW_IQF 0000\r\n");
+        log_debug(buff);
+        serial_write(p->pSerial, buff, strlen(buff));
+        if (p->bWait == 1) {
+        }
+        else {
+            Sleep(1);
+        }
+    }
+    else {
+
+        // FIXME: Quit IQ mode
+    }
+
     return ALINCO_OK;
 }
