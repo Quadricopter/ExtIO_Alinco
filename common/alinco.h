@@ -9,10 +9,18 @@
  *
  */
 
+typedef enum {
+
+    ALINCO_MODEL_DJX11 = 0,
+    ALINCO_MODEL_DXR8,
+    ALINCO_MODEL_MAX
+}   e_alinco_model;
+
 typedef struct s_alinco {
 
-    t_serial    *pSerial;
-    int         bWait;
+    e_alinco_model  model;
+    t_serial        *pSerial;
+    int             bWait;
 }   t_alinco;
 
 /*
@@ -35,7 +43,7 @@ typedef struct s_alinco {
 
 typedef enum {
 
-    ALINCO_OK,
+    ALINCO_OK = 0,
     ALINCO_SERIAL_OPEN_FAILED,
     ALINCO_SERIAL_CONFIG_FAILED,
     ALINCO_OUTOFRANGE,
@@ -51,7 +59,7 @@ typedef enum {
 extern "C" {
 #endif
 
-EAlinco Alinco_init(t_alinco **pAlinco);
+EAlinco Alinco_init(t_alinco **pAlinco, e_alinco_model kind);
 EAlinco Alinco_open(t_alinco *p, const char *szDevice);
 EAlinco Alinco_setVFO1(t_alinco *p, uint32_t freq);
 EAlinco Alinco_getVFO1(t_alinco *p, uint32_t *freq);

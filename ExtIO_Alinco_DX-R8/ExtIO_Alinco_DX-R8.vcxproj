@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\alinco.c" />
     <ClCompile Include="..\common\logging.c" />
     <ClCompile Include="..\common\serial_win32.c" />
     <ClCompile Include="alinco.c" />

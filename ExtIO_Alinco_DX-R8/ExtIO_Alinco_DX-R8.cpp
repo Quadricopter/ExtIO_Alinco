@@ -38,7 +38,7 @@ bool EXTIO_ENTRY InitHW(char *name, char *model, int& type)
      * Open Alinco device
      */
 
-    int r = Alinco_init(&gl_pAlinco);
+    int r = Alinco_init(&gl_pAlinco, ALINCO_MODEL_DXR8);
     if (r != ALINCO_OK) {
 
         char szText[128];
