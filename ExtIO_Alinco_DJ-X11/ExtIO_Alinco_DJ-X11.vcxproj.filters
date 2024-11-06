@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="alinco.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExtIO_Alinco_DJ-X11.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

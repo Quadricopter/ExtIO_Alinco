@@ -24,5 +24,5 @@ Project is currently built with [Visual Studio 2022 Community Edition](https://v
 - You should find dll files in `ExtIO_Alinco\Release` directory
 
 # Current Work In Progress
-- alinco.c files factorization
+- Better `alinco.c` code factorization
 - Configuration GUI instead of `.ini` file.

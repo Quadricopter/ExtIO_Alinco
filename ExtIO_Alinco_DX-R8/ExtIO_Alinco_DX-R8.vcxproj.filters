@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="alinco.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExtIO_Alinco_DX-R8.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
