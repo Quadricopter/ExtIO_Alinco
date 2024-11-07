@@ -15,7 +15,7 @@
 #endif /*CONFIG_FILE_NAME*/
 
 /*
- * 
+ *
  */
 
 t_alinco *gl_pAlinco = NULL;
@@ -24,13 +24,25 @@ t_alinco *gl_pAlinco = NULL;
  * Mandatory ExtIO func
  */
 
+
 extern "C"
-bool EXTIO_ENTRY InitHW(char *name, char *model, int& type)
+bool EXTIO_ENTRY InitHW(char *name, char *model, int &type)
 {
+    e_alinco_model alinco_model = ALINCO_MODEL_DJX11;
+
+    set_log_level(LOG_LEVEL_DEBUG);
     log_debug("InitHW()");
 
-    strncpy(name,  "Alinco", EXTIO_MAX_NAME_LEN);
+    strncpy(name, "Alinco", EXTIO_MAX_NAME_LEN);
+#if defined(TARGET_MODEL_DJX11)
     strncpy(model, "DJ-X11", EXTIO_MAX_MODEL_LEN);
+    alinco_model = ALINCO_MODEL_DJX11;
+#elif defined(TARGET_MODEL_DXR8)
+    strncpy(model, "DX-R8", EXTIO_MAX_MODEL_LEN);
+    alinco_model = ALINCO_MODEL_DXR8;
+#else
+#error "TARGET_MODEL_XXX not defined"
+#endif
     type = exthwSCdata;
 
 
@@ -38,7 +50,7 @@ bool EXTIO_ENTRY InitHW(char *name, char *model, int& type)
      * Open Alinco device
      */
 
-    int r = Alinco_init(&gl_pAlinco, ALINCO_MODEL_DJX11);
+    int r = Alinco_init(&gl_pAlinco, alinco_model);
     if (r != ALINCO_OK) {
 
         char szText[128];
@@ -105,19 +117,51 @@ bool EXTIO_ENTRY OpenHW(void)
     }
     log_debug("szPort=\"%s\"", szPort);
 
+    gl_pAlinco->bWait = GetPrivateProfileInt("CONFIG", "wait", 0, szModulePath);
+
     Alinco_open(gl_pAlinco, szPort);
+ 
     return true;
 }
 
 extern "C"
-void EXTIO_ENTRY CloseHW(void)
+int EXTIO_ENTRY SetHWLO(long extLOfreq)
 {
-    log_debug("CloseHW()");
+    log_debug("SetHWLO(%ld)", extLOfreq);
 
-    Alinco_close(gl_pAlinco);
-    Alinco_release(gl_pAlinco);
+#if defined(TARGET_MODEL_DJX11)
+    if (extLOfreq < DJX11_MIN_FREQUENCY_HZ) {
 
-    gl_pAlinco = NULL;
+        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, DJX11_MIN_FREQUENCY_HZ);
+        Alinco_setVFO1(gl_pAlinco, DJX11_MIN_FREQUENCY_HZ);
+        return -DJX11_MIN_FREQUENCY_HZ;
+}
+    if (extLOfreq >= DJX11_MAX_FREQUENCY_HZ) {
+
+        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, DJX11_MAX_FREQUENCY_HZ);
+        Alinco_setVFO1(gl_pAlinco, DJX11_MAX_FREQUENCY_HZ);
+        return DJX11_MAX_FREQUENCY_HZ;
+    }
+#elif defined(TARGET_MODEL_DXR8)
+    if (extLOfreq < DXR8_MIN_FREQUENCY_HZ) {
+
+        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, DXR8_MIN_FREQUENCY_HZ);
+        Alinco_setVFO1(gl_pAlinco, DXR8_MIN_FREQUENCY_HZ);
+        return -DXR8_MIN_FREQUENCY_HZ;
+    }
+    if (extLOfreq >= DXR8_MAX_FREQUENCY_HZ) {
+
+        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, DXR8_MAX_FREQUENCY_HZ);
+        Alinco_setVFO1(gl_pAlinco, DXR8_MAX_FREQUENCY_HZ);
+        return DXR8_MAX_FREQUENCY_HZ;
+    }
+#else
+#error "TARGET_MODEL_XXX not defined"
+#endif
+
+    Alinco_setVFO1(gl_pAlinco, extLOfreq);
+
+    return 0;
 }
 
 extern "C"
@@ -147,31 +191,21 @@ void EXTIO_ENTRY SetCallback(pfnExtIOCallback funcptr)
 }
 
 extern "C"
-int EXTIO_ENTRY SetHWLO(long extLOfreq)
+int EXTIO_ENTRY GetStatus(void)
 {
-    log_debug("SetHWLO(%ld)", extLOfreq);
-
-    if (extLOfreq < DJX11_MIN_FREQUENCY_HZ) {
-
-        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, DJX11_MIN_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DJX11_MIN_FREQUENCY_HZ);
-        return -DJX11_MIN_FREQUENCY_HZ;
-    }
-    if (extLOfreq >= DJX11_MAX_FREQUENCY_HZ) {
-
-        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, DJX11_MAX_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DJX11_MAX_FREQUENCY_HZ);
-        return DJX11_MAX_FREQUENCY_HZ;
-    }
-
-    Alinco_setVFO1(gl_pAlinco, extLOfreq);
+    log_debug("GetStatus()");
 
     return 0;
 }
 
+
 extern "C"
-int EXTIO_ENTRY GetStatus(void)
+void EXTIO_ENTRY CloseHW(void)
 {
-    log_debug("GetStatus()");
-    return 0;
+    log_debug("CloseHW()");
+
+    Alinco_close(gl_pAlinco);
+    Alinco_release(gl_pAlinco);
+
+    gl_pAlinco = NULL;
 }
