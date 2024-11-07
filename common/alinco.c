@@ -8,11 +8,34 @@
  *
  */
 
+static t_alinco_device_settings __alinco_settings[ALINCO_MODEL_MAX] = {
+
+    {
+        .model   = ALINCO_MODEL_DJX11,
+        .szModel = "DJ-X11",
+        .baud    = DJX11_BAUD,
+        .vfoMin  = DJX11_MIN_FREQUENCY_HZ,
+        .vfoMax  = DJX11_MAX_FREQUENCY_HZ
+    },
+    {
+        .model = ALINCO_MODEL_DXR8,
+        .szModel = "DX-R8",
+        .baud = DXR8_BAUD,
+        .vfoMin = DXR8_MIN_FREQUENCY_HZ,
+        .vfoMax = DXR8_MAX_FREQUENCY_HZ
+    }
+};
+
+/*
+ *
+ */
+
 EAlinco Alinco_init(t_alinco **p, e_alinco_model model)
 {
     *p = malloc(sizeof(t_alinco));
     memset(*p, 0, sizeof(t_alinco));
-    (*p)->model = model;
+
+    (*p)->pSettings = &__alinco_settings[model];
 
     return ALINCO_OK;
 }
@@ -21,21 +44,9 @@ EAlinco Alinco_open(t_alinco *p, const char *szDevice)
 {
     t_serial    *pSerial = NULL;
     ESerial     serialRet;
-    int         baud = 0;
-
-    switch (p->model) {
-    case ALINCO_MODEL_DJX11:
-        baud = DJX11_BAUD;
-        break;
-    case ALINCO_MODEL_DXR8:
-        baud = DXR8_BAUD;
-        break;
-    default:
-        log_error("unsupported model: %d", p->model);
-    }
 
     serial_init(&pSerial);
-    serialRet = serial_open(pSerial, szDevice, baud);
+    serialRet = serial_open(pSerial, szDevice, p->pSettings->baud);
     if (serialRet != SERIAL_OK) {
 
         log_error("serial_open(%s) failed", szDevice);
@@ -76,13 +87,15 @@ EAlinco Alinco_setVFO1(t_alinco *p, uint32_t freq)
 {
     char buff[SERIAL_BUFFER_SIZE];
 
-    switch (p->model) {
+    if ((freq < p->pSettings->vfoMin) || (freq > p->pSettings->vfoMax)) {
+
+        log_error("Can't set VFO, out of range..");
+        return ALINCO_OUTOFRANGE;
+    }
+
+    switch (p->pSettings->model) {
 
     case ALINCO_MODEL_DJX11:
-        if ((freq < DJX11_MIN_FREQUENCY_HZ) || (freq > DJX11_MAX_FREQUENCY_HZ)) {
-
-            return ALINCO_OUTOFRANGE;
-        }
         sprintf(buff, "AL~FW0%010d\r", freq);
         serial_write(p->pSerial, buff, strlen(buff));
         serial_read(p->pSerial, buff, SERIAL_BUFFER_SIZE);
@@ -93,11 +106,6 @@ EAlinco Alinco_setVFO1(t_alinco *p, uint32_t freq)
         break;
 
     case ALINCO_MODEL_DXR8:
-        if ((freq < DXR8_MIN_FREQUENCY_HZ) || (freq > DXR8_MAX_FREQUENCY_HZ)) {
-
-            return ALINCO_OUTOFRANGE;
-        }
-
         sprintf(buff, "AL~RW_RXF%08d\r\n", freq);
         log_debug("send freq change query");
         log_debug(buff);
@@ -120,7 +128,7 @@ EAlinco Alinco_getVFO1(t_alinco *p, uint32_t *freq)
     char buff[SERIAL_BUFFER_SIZE];
     unsigned int tmp;
 
-    switch (p->model) {
+    switch (p->pSettings->model) {
 
     case ALINCO_MODEL_DJX11:
         sprintf(buff, "AL~FR0\r");
@@ -133,7 +141,7 @@ EAlinco Alinco_getVFO1(t_alinco *p, uint32_t *freq)
 
     case ALINCO_MODEL_DXR8:
     default:
-        log_error("Unsupported model type %d", p->model);
+        log_error("Unsupported model type %d", p->pSettings->model);
         return ALINCO_FAILED;
     }
 
@@ -144,7 +152,7 @@ EAlinco Alinco_setModeSDR(t_alinco *p, bool bSdrMode)
 {
     char buff[SERIAL_BUFFER_SIZE];
 
-    switch (p->model) {
+    switch (p->pSettings->model) {
 
     case ALINCO_MODEL_DJX11:
         if (bSdrMode == true)

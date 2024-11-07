@@ -33,18 +33,13 @@ bool EXTIO_ENTRY InitHW(char *name, char *model, int &type)
     set_log_level(LOG_LEVEL_DEBUG);
     log_debug("InitHW()");
 
-    strncpy(name, "Alinco", EXTIO_MAX_NAME_LEN);
 #if defined(TARGET_MODEL_DJX11)
-    strncpy(model, "DJ-X11", EXTIO_MAX_MODEL_LEN);
     alinco_model = ALINCO_MODEL_DJX11;
 #elif defined(TARGET_MODEL_DXR8)
-    strncpy(model, "DX-R8", EXTIO_MAX_MODEL_LEN);
     alinco_model = ALINCO_MODEL_DXR8;
 #else
-#error "TARGET_MODEL_XXX not defined"
+#error "TARGET_MODEL_XXXXX not defined"
 #endif
-    type = exthwSCdata;
-
 
     /*
      * Open Alinco device
@@ -63,6 +58,14 @@ bool EXTIO_ENTRY InitHW(char *name, char *model, int &type)
 
         return false;
     }
+
+    /*
+     * "Return" name, model and type
+     */
+
+    strncpy(name, "Alinco", EXTIO_MAX_NAME_LEN);
+    strncpy(model, gl_pAlinco->pSettings->szModel, EXTIO_MAX_MODEL_LEN);
+    type = exthwSCdata;
 
     return true;
 }
@@ -129,35 +132,18 @@ int EXTIO_ENTRY SetHWLO(long extLOfreq)
 {
     log_debug("SetHWLO(%ld)", extLOfreq);
 
-#if defined(TARGET_MODEL_DJX11)
-    if (extLOfreq < DJX11_MIN_FREQUENCY_HZ) {
+    if (extLOfreq < gl_pAlinco->pSettings->vfoMin) {
 
-        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, DJX11_MIN_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DJX11_MIN_FREQUENCY_HZ);
-        return -DJX11_MIN_FREQUENCY_HZ;
-}
-    if (extLOfreq >= DJX11_MAX_FREQUENCY_HZ) {
-
-        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, DJX11_MAX_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DJX11_MAX_FREQUENCY_HZ);
-        return DJX11_MAX_FREQUENCY_HZ;
+        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, gl_pAlinco->pSettings->vfoMin);
+        Alinco_setVFO1(gl_pAlinco, gl_pAlinco->pSettings->vfoMin);
+        return gl_pAlinco->pSettings->vfoMin * -1;
     }
-#elif defined(TARGET_MODEL_DXR8)
-    if (extLOfreq < DXR8_MIN_FREQUENCY_HZ) {
+    if (extLOfreq >= gl_pAlinco->pSettings->vfoMax) {
 
-        log_warning("extLOfreq below MIN: %d < %d", extLOfreq, DXR8_MIN_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DXR8_MIN_FREQUENCY_HZ);
-        return -DXR8_MIN_FREQUENCY_HZ;
+        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, gl_pAlinco->pSettings->vfoMax);
+        Alinco_setVFO1(gl_pAlinco, gl_pAlinco->pSettings->vfoMax);
+        return gl_pAlinco->pSettings->vfoMax;
     }
-    if (extLOfreq >= DXR8_MAX_FREQUENCY_HZ) {
-
-        log_warning("extLOfreq above MAX: %d > %d", extLOfreq, DXR8_MAX_FREQUENCY_HZ);
-        Alinco_setVFO1(gl_pAlinco, DXR8_MAX_FREQUENCY_HZ);
-        return DXR8_MAX_FREQUENCY_HZ;
-    }
-#else
-#error "TARGET_MODEL_XXX not defined"
-#endif
 
     Alinco_setVFO1(gl_pAlinco, extLOfreq);
 

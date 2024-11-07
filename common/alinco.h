@@ -16,11 +16,20 @@ typedef enum {
     ALINCO_MODEL_MAX
 }   e_alinco_model;
 
-typedef struct s_alinco {
+typedef struct {
 
-    e_alinco_model  model;
-    t_serial        *pSerial;
-    int             bWait;
+    e_alinco_model              model;
+    char                        *szModel;
+    uint32_t                    baud;
+    uint32_t                    vfoMin;
+    uint32_t                    vfoMax;
+}   t_alinco_device_settings;
+
+typedef struct {
+
+    t_alinco_device_settings    *pSettings;
+    t_serial                    *pSerial;
+    int                         bWait;
 }   t_alinco;
 
 /*
@@ -36,6 +45,7 @@ typedef struct s_alinco {
 #define DXR8_BAUD                     9600
 #define DXR8_MIN_FREQUENCY_HZ       150000
 #define DXR8_MAX_FREQUENCY_HZ     35000000
+
 
 /*
  *
