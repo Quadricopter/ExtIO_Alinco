@@ -1,10 +1,13 @@
 # Notice
 ExtIO dll for HDSDR.  
-~~Previously hosted at [deprecated](http://scirocco.pagesperso-orange.fr/hdsdr/)~~
+**DEPRECATED** ~~Previously hosted at http://scirocco.pagesperso-orange.fr/hdsdr/~~ **DEPRECATED**  
+Note:
+- I only own a `DJ-X11` device and "It works on my computer" :-p  
+- I'm looking for `DX-R8` device testers (previously working with v0.0.2)
 
 # Usage
 - Get zip archive in [Releases assets](https://github.com/Quadricopter/ExtIO_Alinco/releases)
-- Copy `ExtIO_*.dll` and `ExtIO_*.ini` files in your `HDSDR` installation directory (default: `C:\Program (x86)\HDSDR`).  
+- Copy `ExtIO_*.dll` and `ExtIO_*.ini` files in your `HDSDR` installation directory (default: `C:\Program (x86)\HDSDR`).
 - COM port configuration is currently done with an `.ini` file. The `.ini` file MUST have the same name as the associated .dll (eq: `ExtIO_alinco_djx11.ini` for `ExtIO_alinco_djx11.dll`) and contains something like following:
 ```
 [CONFIG]
@@ -24,5 +27,5 @@ Project is currently built with [Visual Studio 2022 Community Edition](https://v
 - You should find dll files in `ExtIO_Alinco\Release` directory
 
 # Current Work In Progress
-- Better `alinco.c` code factorization
-- Configuration GUI instead of `.ini` file.
+- Configuration GUI and `Windows Registry` instead of `.ini` file.
+- Uniq DLL for ever Alinco device? (pro/cons)

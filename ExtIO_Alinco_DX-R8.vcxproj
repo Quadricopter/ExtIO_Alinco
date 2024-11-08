@@ -19,29 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\alinco.c" />
-    <ClCompile Include="..\common\ExtIO_Alinco.cpp" />
-    <ClCompile Include="..\common\logging.c" />
-    <ClCompile Include="..\common\serial_win32.c" />
+    <ClCompile Include="src\alinco.c" />
+    <ClCompile Include="src\ExtIO_Alinco.cpp" />
+    <ClCompile Include="src\logging.c" />
+    <ClCompile Include="src\serial_win32.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common\alinco.h" />
-    <ClInclude Include="..\common\ExtIO.h" />
-    <ClInclude Include="..\common\logging.h" />
-    <ClInclude Include="..\common\sdk\LC_ExtIO_Types.h" />
-    <ClInclude Include="..\common\serial.h" />
-    <ClInclude Include="..\common\version.h" />
+    <ClInclude Include="src\alinco.h" />
+    <ClInclude Include="src\ExtIO.h" />
+    <ClInclude Include="src\logging.h" />
+    <ClInclude Include="src\serial.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\common\ExtIO_library.def" />
+    <None Include="src\ExtIO_library.def" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8edcb560-f8c8-4565-b406-a890f49ce5cc}</ProjectGuid>
+    <ProjectGuid>{4ddf7b38-9b99-493f-a72c-192d60c51c92}</ProjectGuid>
     <RootNamespace>ExtIO_Alinco</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>ExtIO_alinco_djx11</ProjectName>
+    <ProjectName>ExtIO_alinco_dxr8</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -89,33 +88,33 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>..\common;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DJX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DXR8</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CallingConvention>StdCall</CallingConvention>
-      <AdditionalIncludeDirectories>..\common\sdk;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>..\common\ExtIO_library.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\ExtIO_library.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -128,12 +127,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DJX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DXR8</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CallingConvention>StdCall</CallingConvention>
-      <AdditionalIncludeDirectories>..\common\sdk;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -141,7 +140,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>..\common\ExtIO_library.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\ExtIO_library.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -152,18 +151,18 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DJX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DXR8</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CallingConvention>StdCall</CallingConvention>
-      <AdditionalIncludeDirectories>..\common\sdk;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>..\common\ExtIO_library.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\ExtIO_library.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -176,12 +175,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DJX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOGGING_FILENAME="$(TargetName).log";EXTIO_LIBRARY_NAME="$(TargetName)";CONFIG_FILE_NAME="$(TargetName).ini";TARGET_MODEL_DXR8</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <CallingConvention>StdCall</CallingConvention>
-      <AdditionalIncludeDirectories>..\common\sdk;..\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src\sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,7 +188,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <ModuleDefinitionFile>..\common\ExtIO_library.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\ExtIO_library.def</ModuleDefinitionFile>
     </Link>
     <PostBuildEvent>
       <Command>

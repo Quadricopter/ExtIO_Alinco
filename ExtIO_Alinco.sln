@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtIO_alinco_djx11", "ExtIO_Alinco_DJ-X11\ExtIO_Alinco_DJ-X11.vcxproj", "{8EDCB560-F8C8-4565-B406-A890F49CE5CC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtIO_alinco_djx11", "ExtIO_Alinco_DJ-X11.vcxproj", "{8EDCB560-F8C8-4565-B406-A890F49CE5CC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtIO_alinco_dxr8", "ExtIO_Alinco_DX-R8\ExtIO_Alinco_DX-R8.vcxproj", "{4DDF7B38-9B99-493F-A72C-192D60C51C92}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtIO_alinco_dxr8", "ExtIO_Alinco_DX-R8.vcxproj", "{4DDF7B38-9B99-493F-A72C-192D60C51C92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

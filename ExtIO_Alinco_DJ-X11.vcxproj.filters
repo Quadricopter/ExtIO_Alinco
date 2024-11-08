@@ -15,41 +15,38 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\common\logging.c">
+    <ClCompile Include="src\alinco.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\serial_win32.c">
+    <ClCompile Include="src\ExtIO_Alinco.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\alinco.c">
+    <ClCompile Include="src\logging.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\ExtIO_Alinco.cpp">
+    <ClCompile Include="src\serial_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\common\alinco.h">
+    <ClInclude Include="src\alinco.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\serial.h">
+    <ClInclude Include="src\ExtIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\version.h">
+    <ClInclude Include="src\logging.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\sdk\LC_ExtIO_Types.h">
+    <ClInclude Include="src\serial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\common\logging.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\ExtIO.h">
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\common\ExtIO_library.def">
+    <None Include="src\ExtIO_library.def">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
