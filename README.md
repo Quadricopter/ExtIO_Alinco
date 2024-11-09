@@ -1,10 +1,11 @@
 # Notice
-ExtIO dll for HDSDR.  
-~~Previously hosted at http://scirocco.pagesperso-orange.fr/hdsdr/~~ **DEPRECATED**  
+ExtIO dll for [Alinco](https://www.alinco.com/) [DJ-X11](https://www.alinco.com/Archives/Receivers/DJ-X11/) (and [DX-R8](https://www.alinco.com/Archives/Receivers/DX-R8/)) device.  
+  
+**DEPRECATED** ~~Previously hosted at http://scirocco.pagesperso-orange.fr/hdsdr/~~ **DEAD LINK**  
 See [Releases assets](https://github.com/Quadricopter/ExtIO_Alinco/releases)
 
 Note:
-- I only own a `DJ-X11` device and _"It works on my computer"_ :-p  
+- I only own a `DJ-X11` device and _"It works on my computer"_ :stuck_out_tongue_winking_eye:  
 - I'm looking for `DX-R8` device testers (previously working with `v0.0.2`)
 
 # Usage
